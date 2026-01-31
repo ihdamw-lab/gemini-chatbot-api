@@ -1,28 +1,473 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Gemini AI Chatbot</title>
-  <link rel="stylesheet" href="style.css"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OjekQu - Your Daily Driver</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- Chatbot Styles -->
+    <link rel="stylesheet" href="style.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#fff7ed',
+                            100: '#ffedd5',
+                            200: '#fed7aa',
+                            300: '#fdba74',
+                            400: '#fb923c',
+                            500: '#f97316', // Primary Orange
+                            600: '#ea580c',
+                            700: '#c2410c',
+                            800: '#9a3412',
+                            900: '#7c2d12',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .blob {
+            position: absolute;
+            filter: blur(40px);
+            z-index: -1;
+            opacity: 0.4;
+            animation: move 10s infinite alternate;
+        }
+        @keyframes move {
+            from { transform: translate(0, 0) scale(1); }
+            to { transform: translate(20px, -20px) scale(1.1); }
+        }
+        .phone-mockup {
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            border: 8px solid #1f2937;
+            border-radius: 2.5rem;
+            overflow: hidden;
+            background: white;
+        }
+    </style>
 </head>
-<body>
-  <div class="container">
-    <div class="header">
-      <h1>Gemini AI Chatbot</h1>
-      <div class="theme-switch-container">
-        <label class="theme-switch" for="theme-checkbox">
-          <input type="checkbox" id="theme-checkbox" />
-          <div class="slider round"></div>
-        </label>
+<body class="font-sans text-gray-800 antialiased overflow-x-hidden">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-orange-100 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <div class="w-10 h-10 bg-brand-500 rounded-xl flex items-center justify-center text-white">
+                        <i class="ph-bold ph-moped text-2xl"></i>
+                    </div>
+                    <span class="font-bold text-2xl tracking-tight text-gray-900">Ojek<span class="text-brand-500">Qu</span></span>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="text-gray-600 hover:text-brand-600 font-medium transition-colors">Home</a>
+                    <a href="#products" class="text-gray-600 hover:text-brand-600 font-medium transition-colors">Services</a>
+                    <a href="#testimonials" class="text-gray-600 hover:text-brand-600 font-medium transition-colors">Reviews</a>
+                    <a href="#contact" class="text-gray-600 hover:text-brand-600 font-medium transition-colors">Contact</a>
+                    <button class="bg-brand-500 hover:bg-brand-600 text-white px-6 py-2.5 rounded-full font-semibold transition-all transform hover:scale-105 shadow-lg shadow-brand-500/30">
+                        Download App
+                    </button>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-600 hover:text-brand-600 p-2">
+                        <i class="ph ph-list text-3xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Panel -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 absolute w-full">
+            <div class="px-4 pt-2 pb-6 space-y-2 shadow-xl">
+                <a href="#home" class="block px-3 py-3 text-base font-medium text-gray-700 hover:text-brand-600 hover:bg-brand-50 rounded-lg">Home</a>
+                <a href="#products" class="block px-3 py-3 text-base font-medium text-gray-700 hover:text-brand-600 hover:bg-brand-50 rounded-lg">Services</a>
+                <a href="#testimonials" class="block px-3 py-3 text-base font-medium text-gray-700 hover:text-brand-600 hover:bg-brand-50 rounded-lg">Reviews</a>
+                <a href="#contact" class="block px-3 py-3 text-base font-medium text-gray-700 hover:text-brand-600 hover:bg-brand-50 rounded-lg">Contact</a>
+                <a href="#cta" class="block px-3 py-3 text-base font-medium text-brand-600 font-bold bg-brand-50 rounded-lg">Get the App</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-brand-50">
+        <div class="blob bg-brand-300 w-96 h-96 rounded-full top-0 left-0 -translate-x-1/2 -translate-y-1/2 mix-blend-multiply"></div>
+        <div class="blob bg-yellow-300 w-96 h-96 rounded-full top-20 right-0 translate-x-1/3 mix-blend-multiply animation-delay-2000"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+            <div class="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+                <div class="text-center lg:text-left space-y-8">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-brand-100 shadow-sm text-brand-600 font-semibold text-sm">
+                        <span class="w-2 h-2 rounded-full bg-brand-500 animate-pulse"></span>
+                        #1 Ojek Service in Indonesia
+                    </div>
+                    <h1 class="text-5xl lg:text-7xl font-extrabold text-gray-900 leading-tight">
+                        Move Fast.<br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-500 to-yellow-500">Live More.</span>
+                    </h1>
+                    <p class="text-xl text-gray-600 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                        Skip the traffic, satisfy your cravings, and send packages instantly. One app for all your daily needs.
+                    </p>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                        <button class="flex items-center justify-center gap-3 bg-gray-900 text-white px-8 py-4 rounded-xl hover:bg-gray-800 transition-all shadow-xl hover:shadow-2xl hover:-translate-y-1">
+                            <i class="ph-fill ph-apple-logo text-2xl"></i>
+                            <div class="text-left">
+                                <div class="text-xs text-gray-400">Download on the</div>
+                                <div class="text-lg font-bold leading-none">App Store</div>
+                            </div>
+                        </button>
+                        <button class="flex items-center justify-center gap-3 bg-white text-gray-900 px-8 py-4 rounded-xl border border-gray-200 hover:border-brand-300 hover:bg-brand-50 transition-all shadow-lg hover:shadow-xl hover:-translate-y-1">
+                            <i class="ph-fill ph-google-play-logo text-2xl text-brand-600"></i>
+                            <div class="text-left">
+                                <div class="text-xs text-gray-500">Get it on</div>
+                                <div class="text-lg font-bold leading-none">Google Play</div>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="relative lg:h-[600px] flex justify-center items-center">
+                    <div class="relative w-[300px] sm:w-[350px] z-10 phone-mockup bg-gray-900">
+                         <div class="h-[650px] w-full bg-white relative overflow-hidden flex flex-col">
+                            <div class="bg-brand-500 p-6 pt-12 text-white rounded-b-3xl z-10 shadow-lg">
+                                <div class="flex justify-between items-center mb-4 text-xs font-bold opacity-80 uppercase tracking-widest">
+                                    <span>OjekQu App</span>
+                                    <span>5G</span>
+                                </div>
+                                <div class="h-12 w-full bg-white text-gray-400 rounded-xl flex items-center px-4 text-sm shadow-inner">
+                                    Find your destination...
+                                </div>
+                            </div>
+                            <div class="flex-1 bg-gray-100 relative">
+                                <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#9ca3af 1px, transparent 1px); background-size: 20px 20px;"></div>
+                                <div class="absolute bottom-1/2 left-1/2 w-8 h-8 -ml-4 animate-pulse">
+                                    <i class="ph-fill ph-map-pin text-brand-600 text-4xl drop-shadow-lg"></i>
+                                </div>
+                            </div>
+                            <div class="bg-white p-6 rounded-t-3xl shadow-[0_-5px_20px_rgba(0,0,0,0.05)] grid grid-cols-4 gap-4">
+                                <div class="h-12 rounded-xl bg-orange-50 border border-orange-100 flex items-center justify-center text-orange-600"><i class="ph-bold ph-moped"></i></div>
+                                <div class="h-12 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600"><i class="ph-bold ph-car"></i></div>
+                                <div class="h-12 rounded-xl bg-green-50 border border-green-100 flex items-center justify-center text-green-600"><i class="ph-bold ph-fork-knife"></i></div>
+                                <div class="h-12 rounded-xl bg-purple-50 border border-purple-100 flex items-center justify-center text-purple-600"><i class="ph-bold ph-package"></i></div>
+                            </div>
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products/Services Section -->
+    <section id="products" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-brand-600 font-bold tracking-wider uppercase text-sm">Services</span>
+                <h2 class="mt-2 text-4xl font-bold text-gray-900 leading-tight">Everything you need, <span class="text-brand-500">one tap away.</span></h2>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="p-8 rounded-3xl bg-orange-50 border border-orange-100 hover:shadow-xl hover:shadow-orange-500/10 transition-all group">
+                    <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-brand-500 shadow-sm mb-6 group-hover:scale-110 transition-transform">
+                        <i class="ph-fill ph-moped text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">QuRide</h3>
+                    <p class="text-gray-600">Beat the traffic jam with our fastest motorcycle taxi service.</p>
+                </div>
+                <div class="p-8 rounded-3xl bg-blue-50 border border-blue-100 hover:shadow-xl hover:shadow-blue-500/10 transition-all group">
+                    <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-blue-500 shadow-sm mb-6 group-hover:scale-110 transition-transform">
+                        <i class="ph-fill ph-car text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">QuCar</h3>
+                    <p class="text-gray-600">Travel in comfort with our premium fleet of air-conditioned cars.</p>
+                </div>
+                <div class="p-8 rounded-3xl bg-green-50 border border-green-100 hover:shadow-xl hover:shadow-green-500/10 transition-all group">
+                    <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-green-500 shadow-sm mb-6 group-hover:scale-110 transition-transform">
+                        <i class="ph-fill ph-hamburger text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">QuFood</h3>
+                    <p class="text-gray-600">Craving something? Get your favorite food delivered instantly.</p>
+                </div>
+                <div class="p-8 rounded-3xl bg-purple-50 border border-purple-100 hover:shadow-xl hover:shadow-purple-500/10 transition-all group">
+                    <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-purple-500 shadow-sm mb-6 group-hover:scale-110 transition-transform">
+                        <i class="ph-fill ph-package text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">QuSend</h3>
+                    <p class="text-gray-600">Send documents or items across the city with real-time tracking.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="py-24 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-brand-600 font-bold tracking-wider uppercase text-sm">Testimonials</span>
+                <h2 class="mt-2 text-4xl font-bold text-gray-900">Loved by 2M+ users.</h2>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
+                    <div class="flex text-yellow-400 mb-4"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div>
+                    <p class="text-gray-600 italic mb-6">"OjekQu has saved me hours of commuting time. The drivers are always professional and friendly!"</p>
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-full bg-brand-100"></div>
+                        <div class="font-bold">Aria Pratama</div>
+                    </div>
+                </div>
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
+                    <div class="flex text-yellow-400 mb-4"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div>
+                    <p class="text-gray-600 italic mb-6">"The best food delivery app! I never have to worry about my lunch being late anymore."</p>
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-full bg-blue-100"></div>
+                        <div class="font-bold">Siti Aminah</div>
+                    </div>
+                </div>
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
+                    <div class="flex text-yellow-400 mb-4"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div>
+                    <p class="text-gray-600 italic mb-6">"Reliable and affordable courier. I use QuSend for all my small business deliveries."</p>
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-full bg-green-100"></div>
+                        <div class="font-bold">Rico Sanjaya</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Us Section -->
+    <section id="contact" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <!-- Contact Details -->
+                <div class="space-y-12">
+                    <div>
+                        <span class="text-brand-600 font-bold tracking-wider uppercase text-sm">Contact Us</span>
+                        <h2 class="mt-2 text-4xl font-bold text-gray-900 leading-tight">Got questions? <br><span class="text-brand-500">We're here to help.</span></h2>
+                        <p class="mt-4 text-xl text-gray-600 leading-relaxed">Whether you're a user, a driver partner, or interested in a business collaboration, our team is ready to assist you 24/7.</p>
+                    </div>
+
+                    <div class="space-y-8">
+                        <div class="flex items-start gap-5">
+                            <div class="w-12 h-12 rounded-xl bg-brand-50 flex items-center justify-center text-brand-600 flex-shrink-0">
+                                <i class="ph-bold ph-map-pin text-2xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-900">Headquarters</h4>
+                                <p class="text-gray-600">QuCenter Tower, Jl. Sudirman No. 45<br>Jakarta Selatan, 12190</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-5">
+                            <div class="w-12 h-12 rounded-xl bg-brand-50 flex items-center justify-center text-brand-600 flex-shrink-0">
+                                <i class="ph-bold ph-envelope text-2xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-900">Email Support</h4>
+                                <p class="text-gray-600">help@ojekqu.id<br>partners@ojekqu.id</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-5">
+                            <div class="w-12 h-12 rounded-xl bg-brand-50 flex items-center justify-center text-brand-600 flex-shrink-0">
+                                <i class="ph-bold ph-phone text-2xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-900">Call Center</h4>
+                                <p class="text-gray-600">021-500-OJEK (6535)<br>Available 24 Hours</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="bg-gray-50 border border-gray-100 p-8 md:p-10 rounded-[2.5rem] shadow-xl shadow-gray-200/50">
+                    <form action="#" class="space-y-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Full Name</label>
+                                <input type="text" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-4 focus:ring-brand-100 outline-none transition-all" placeholder="Enter your name">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Email Address</label>
+                                <input type="email" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-4 focus:ring-brand-100 outline-none transition-all" placeholder="name@email.com">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Subject</label>
+                            <select class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-4 focus:ring-brand-100 outline-none transition-all bg-white">
+                                <option>General Inquiry</option>
+                                <option>Driver Partnership</option>
+                                <option>Merchant Partnership</option>
+                                <option>Technical Support</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Message</label>
+                            <textarea rows="4" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-4 focus:ring-brand-100 outline-none transition-all" placeholder="How can we help you today?"></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-brand-500 hover:bg-brand-600 text-white font-bold py-4 rounded-xl shadow-lg shadow-brand-500/30 transition-all transform hover:scale-[1.02] active:scale-95">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="cta" class="py-24 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-gray-900 rounded-[3rem] p-8 md:p-16 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-12">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-brand-500 rounded-full blur-[100px] opacity-20 transform translate-x-1/2 -translate-y-1/2"></div>
+                <div class="relative z-10 max-w-xl text-center md:text-left">
+                    <h2 class="text-3xl md:text-5xl font-bold text-white mb-6 leading-tight">Join the movement. <br><span class="text-brand-500 underline decoration-orange-600/50">Ride with OjekQu today.</span></h2>
+                    <p class="text-gray-400 text-lg mb-8">Download our app to get 50% off your first 3 rides. Use promo code: <span class="text-white font-bold">WELCOMEOJEK</span></p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                        <button class="flex items-center justify-center gap-3 bg-white text-gray-900 px-8 py-4 rounded-2xl font-bold hover:bg-gray-100 transition-colors">
+                            <i class="ph-fill ph-apple-logo text-2xl"></i> App Store
+                        </button>
+                        <button class="flex items-center justify-center gap-3 bg-brand-500 text-white px-8 py-4 rounded-2xl font-bold hover:bg-brand-600 transition-colors shadow-lg shadow-brand-500/20">
+                            <i class="ph-fill ph-google-play-logo text-2xl"></i> Play Store
+                        </button>
+                    </div>
+                </div>
+                <div class="relative z-10 bg-white/5 p-8 rounded-[2rem] border border-white/10 backdrop-blur-sm hidden lg:block">
+                    <div class="text-center">
+                        <div class="text-brand-500 text-5xl font-extrabold mb-2">4.9/5</div>
+                        <div class="text-white font-bold mb-4">Store Rating</div>
+                        <div class="flex gap-1 text-brand-500 justify-center">
+                            <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white pt-20 pb-10 border-t border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center md:text-left">
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 mb-16">
+                <div class="col-span-2 lg:col-span-2">
+                    <div class="flex items-center gap-2 mb-6 justify-center md:justify-start">
+                        <div class="w-8 h-8 bg-brand-500 rounded-lg flex items-center justify-center text-white font-bold">Q</div>
+                        <span class="font-bold text-xl tracking-tight text-gray-900">Ojek<span class="text-brand-500">Qu</span></span>
+                    </div>
+                    <p class="text-gray-500 mb-6 max-w-sm">The most reliable transportation super app in Indonesia. We move you faster, safer, and cheaper.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-6">Explore</h4>
+                    <ul class="space-y-4 text-gray-500">
+                        <li><a href="#home" class="hover:text-brand-500">Home</a></li>
+                        <li><a href="#products" class="hover:text-brand-500">Services</a></li>
+                        <li><a href="#testimonials" class="hover:text-brand-500">Reviews</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-6">Legal</h4>
+                    <ul class="space-y-4 text-gray-500">
+                        <li><a href="#" class="hover:text-brand-500">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-brand-500">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-brand-500">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-6">Install App</h4>
+                    <div class="space-y-3">
+                        <div class="h-10 w-32 bg-gray-900 rounded-lg mx-auto md:mx-0"></div>
+                        <div class="h-10 w-32 bg-gray-900 rounded-lg mx-auto md:mx-0"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="pt-8 border-t border-gray-100 text-gray-400 text-sm">
+                &copy; 2024 OjekQu Technologies. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+   <!-- Chat Widget -->
+    <div id="chat-widget" class="chat-widget">
+      <div class="container">
+        <div class="header">
+          <h1>AI Assistant OjekQu</h1>
+        </div>
+        
+        <div id="chat-box" class="chat-box"></div>
+
+        <!-- AREA PREVIEW LAMPIRAN (Muncul saat file dipilih) -->
+        <div id="file-preview" class="hidden items-center gap-2 p-3 bg-gray-50 border-t border-gray-100">
+            <div class="flex items-center gap-2 bg-white px-3 py-1.5 rounded-lg border border-orange-200 shadow-sm">
+                <i id="preview-icon" class="ph ph-file text-brand-500 text-lg"></i>
+                <span id="preview-name" class="text-xs font-semibold text-gray-600 truncate max-w-[150px]">nama_file.jpg</span>
+                <button type="button" id="cancel-file" class="ml-1 text-gray-400 hover:text-red-500 transition-colors">
+                    <i class="ph-bold ph-x-circle text-base"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Form Chat -->
+        <form id="chat-form">
+          <input type="text" id="user-input" placeholder="Tulis pesan atau instruksi..." autocomplete="off" />
+          <button type="submit" id="send-btn">Kirim</button>
+        </form>
+
+        <div class="file-upload-section">
+          <div class="file-buttons">
+            <button id="image-btn" type="button" class="file-btn" title="Upload Image">
+              <i class="ph ph-image"></i>
+            </button>
+            <button id="document-btn" type="button" class="file-btn" title="Upload Document">
+              <i class="ph ph-file-text"></i>
+            </button>
+            <button id="audio-btn" type="button" class="file-btn" title="Upload Audio">
+              <i class="ph ph-music-note"></i>
+            </button>
+          </div>
+          <!-- Hidden Input File -->
+          <input type="file" id="file-input" style="display: none;" />
+        </div>
       </div>
     </div>
-    <div id="chat-box" class="chat-box"></div>
-    <form id="chat-form">
-      <input type="text" id="user-input" placeholder="Type your message..." autocomplete="off" required />
-      <button type="submit">Send</button>
-    </form>
-  </div>
-  <script src="script.js"></script>
+  
+    <!-- TOMBOL TOGGLE (PENTING: Jangan sampai hilang) -->
+    <button id="chat-toggle-button" class="chat-toggle-button">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="icon-open">
+        <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
+      </svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="icon-close">
+          <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+      </svg>
+    </button>
+    
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script>
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        btn.addEventListener('click', () => menu.classList.toggle('hidden'));
+
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 20) {
+                navbar.classList.add('shadow-xl', 'bg-white/95');
+            } else {
+                navbar.classList.remove('shadow-xl', 'bg-white/95');
+            }
+        });
+    </script>
 </body>
 </html>
