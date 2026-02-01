@@ -16,7 +16,8 @@ Fitur chatbot meliputi:
 
 Chatbot ini dirancang untuk memberikan pengalaman yang mudah dan intuitif, membantu pengguna dalam berbagai kebutuhan, mulai dari deskripsi visual hingga ringkasan informasi. Website ini menunjukkan integrasi teknologi AI modern dengan aplikasi praktis sehari-hari.
 Silakan akses chatbot yang ditandai dengan ikon pesan.
-*Uji coba dilakukan dengan GEMINI_MODEL = 'gemini-3-flash-preview' karena limit penggunaan
+*Uji coba dilakukan dengan GEMINI_MODEL = 'gemini-3-flash-preview' karena limit penggunaan satt uji coba. Berikut ini adalah UI dari website dengan chatbot.
+
 Generate prompt
 <img width="1882" height="908" alt="Generate prompt" src="https://github.com/user-attachments/assets/c10fd66f-78dc-4015-a78d-e30aa3a54473" />
 Generate audio dengan prompt
